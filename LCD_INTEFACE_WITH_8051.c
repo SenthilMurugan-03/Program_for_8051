@@ -7,6 +7,12 @@
 #define HIGH 1
 #define LOW 0
 
+void wait()
+{
+	char i=0,j=0;
+	for(i=0;i<15;i++)
+	for(j=0;j<1275;j++);
+}
 int lcd_busy()
 {
 
@@ -50,36 +56,36 @@ void lcd_data(char ch)
 
 void lcd_init()
 {
-	lcd_cmd(0x38); /* command for func set DL = 1 N = 1(2lines)*/
-	lcd_cmd(0x0F); /*command for cursor on blink on D = 1 , C = 1 , B = 1*/
+	lcd_cmd(0x38); /* command for func set DL = 1 N = 1(2lines) . used for 8-bit data initialization*/
+	
+	lcd_cmd(0x0C); /*(0x0F)command for display on cursor off blink on D = 1 , C = 1 , B = 1*/
+	
 	lcd_cmd(0x01); /*command for clear screen*/
-	lcd_cmd(0x80); /*command for select address*/
+	
+	lcd_cmd(0x80); /*command for select address in CGROM*/
+	
 }
 
 void main()
 {
-	char Name[]="SENTHIL";
+	char Name[]="SENTHIL MURUGAN A";
 	char i=0;
-	P1_0 = 1;
-	EN = LOW;
-	
-	while(lcd_busy() == 1)
-	{
-		P1_0 = 0;
-	}
-	RW = 0 ;
-	RS = 0;
 	lcd_init();
 	while(Name[i]!='\0')
 	{
 		lcd_data(Name[i]);
 		i++;
+		if(Name[i]==' ')
+		{
+			lcd_cmd(0xC0);
+		}
 	}
 	while(1)
 	{
-		lcd_cmd(0x08);
-		lcd_cmd(0x0c);
+		lcd_cmd(0x18);
+		
 	}
 	
 }
+
 
