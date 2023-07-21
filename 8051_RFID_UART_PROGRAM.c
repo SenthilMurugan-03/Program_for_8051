@@ -16,12 +16,15 @@ void serial_init()
 
 void read_serial()
 {
+	RI = 0;
 	while(RI == 0);
 	RI = 0;
 	while(SBUF != '$')
 	{
 		*p = SBUF;
 		*p++;
+		while(RI == 0);
+		RI = 0;
 	}
 	*p = '\0';
 	p = msg;	
@@ -44,7 +47,6 @@ void main()
 	while(1)
 	{
 		read_serial();
-
 		print_serial("\nMessage Received : \n");
 		print_serial(msg);
 		
