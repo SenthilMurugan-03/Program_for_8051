@@ -7,7 +7,7 @@
 void interrupt_disable_all();
 void interrupt_init(__bit ex);
 void interrupt_type(__bit ex , __bit type);
-void led_toggle();
+void led_toggle() __intterupt(0);
 void wait();
 
 
